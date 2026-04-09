@@ -27676,6 +27676,7 @@ async function run() {
       tag,
       ttlMinutes,
       edition,
+      whitelistIp: '0.0.0.0/0',
     });
 
     const resp = await fetch(`${apiUrl}/instances`, {
