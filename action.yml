@@ -1,0 +1,53 @@
+name: 'Setup PolarDB-X Zero'
+description: 'Create an ephemeral PolarDB-X database instance for CI testing. Automatically cleaned up after the job.'
+branding:
+  icon: 'database'
+  color: 'blue'
+
+inputs:
+  api-key:
+    description: 'PolarDB-X Zero API key (pxk_xxx) for authenticated access with higher quotas'
+    required: false
+    default: ''
+  ttl-minutes:
+    description: 'Instance time-to-live in minutes'
+    required: false
+    default: '30'
+  edition:
+    description: 'Instance edition: standard (single-node) or enterprise (distributed)'
+    required: false
+    default: 'standard'
+  tag:
+    description: 'Optional tag to identify the instance. Auto-generated from GitHub context if empty.'
+    required: false
+    default: ''
+  api-url:
+    description: 'PolarDB-X Zero API base URL'
+    required: false
+    default: 'https://zero.polardbx.com/api/v1'
+  wait-timeout:
+    description: 'Seconds to wait for MySQL to become connectable'
+    required: false
+    default: '120'
+
+outputs:
+  url:
+    description: 'MySQL connection URL (mysql://user:pass@host:port)'
+  jdbc-url:
+    description: 'JDBC connection URL (jdbc:mysql://host:port/?useSSL=true)'
+  host:
+    description: 'MySQL host'
+  port:
+    description: 'MySQL port'
+  user:
+    description: 'MySQL username'
+  password:
+    description: 'MySQL password'
+  instance-id:
+    description: 'PolarDB-X Zero instance ID for manual management'
+
+runs:
+  using: 'node20'
+  main: 'dist/main/index.js'
+  post: 'dist/post/index.js'
+  post-if: 'always()'
